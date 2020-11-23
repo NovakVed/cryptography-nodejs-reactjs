@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +26,7 @@ export default function DenseAppBar() {
     <div className={classes.root}>
       <AppBar className={classes.root} position="static">
         <Toolbar variant="dense">
-          <IconButton edge="start" className={classes.menuButton} color="inherit">
+          <IconButton component={Link} to={'/'} edge="start" className={classes.menuButton} color="inherit">
             <LockOutlinedIcon />
           </IconButton>
           <Typography variant="h6">
