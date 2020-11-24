@@ -1,29 +1,28 @@
 import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Container from '@material-ui/core/Container';
-
-import Navbar from './Components/inc/Navbar'
+import AppBar from './Components/inc/AppBar'
 import SymmetricEncryption from './Pages/SymmetricEncryption'
+import SymmetricDecryption from './Pages/SymmetricDecryption'
 import AsymmetricEncryption from './Pages/AsymmetricEncryption'
+import AsymmetricDecryption from './Pages/AsymmetricDecryption'
 import Home from './Pages/Home'
 
 class App extends React.Component {
-  
-
   render() {
     return (
       <Router>
         <React.Fragment>
-          <CssBaseline />
-          <Navbar />
-          <Container>
+          <AppBar />
+          <br></br>
+          <div>
             <Route path="/symmetricEncryption" component={SymmetricEncryption} />
+            <Route path="/symmetricDecryption" component={SymmetricDecryption} />
             <Route path="/asymmetricEncryption" component={AsymmetricEncryption} />
+            <Route path="/asymmetricDecryption" component={AsymmetricDecryption} />
             <Route path="/home" exact component={Home} />
             <Route path="/" exact component={Home} />
-          </Container>
+          </div>
         </React.Fragment>
       </Router>
     );

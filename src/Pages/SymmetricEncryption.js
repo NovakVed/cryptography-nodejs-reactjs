@@ -1,30 +1,30 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 
 class SymmetricEncryption extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Form>
-          <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Upiši nešto</Form.Label>
-            <Form.Control as="textarea" rows={3} />
-            <Form.Text className="text-muted">
-              We'll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+        <Container>
+          <h2>Simetrično kriptiranje</h2>
+          <br></br>
+            <Form>
+              <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Label>Upiši nešto</Form.Label>
+                <Form.Control as="textarea" rows={3} />
+                <Form.Text className="text-muted">
+                  Navedeni tekst će se enkriptirati u tajnu datoteku "tajni_ključ.txt"
+              </Form.Text>
+              </Form.Group>
 
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Form.Group controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+              <Button variant="primary" type="submit">
+                Preuzmi
+              </Button>
+              <br></br>
+              <br></br>
+              <hr></hr>
+            </Form>
+        </Container>
       </React.Fragment>
     );
   }

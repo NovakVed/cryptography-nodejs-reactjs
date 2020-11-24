@@ -1,13 +1,14 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
 import EncryptComponents from '../Components/CenteredGrid'
 
 class Home extends React.Component {
   render() {
     return (
-      <div className="container">
+      <Container>
         <EncryptComponents />
-      </div>
+      </Container>
     );
   }
 }

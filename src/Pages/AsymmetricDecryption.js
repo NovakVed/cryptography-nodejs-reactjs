@@ -1,6 +1,6 @@
 import React from 'react';
 
-class AsymmetricEncryption extends React.Component {
+class AsymmetricDecryption extends React.Component {
     render() {
         return (
             <React.Fragment>
@@ -10,4 +10,4 @@ class AsymmetricEncryption extends React.Component {
     }
 }
 
-export default AsymmetricEncryption;
+export default AsymmetricDecryption;
