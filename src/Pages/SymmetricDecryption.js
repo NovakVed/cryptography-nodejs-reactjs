@@ -11,17 +11,19 @@ class SymmetricDecryption extends React.Component {
           <Form>
             <Form.Group controlId="exampleForm.File1">
               <Form.File id="formcheck-api-regular">
-                <Form.File.Label>Regular file input</Form.File.Label>
+                <Form.File.Label>Učitaj kriptirani tekst za dekriptiranje</Form.File.Label>
                 <Form.File.Input />
               </Form.File>
               <Form.Text className="text-muted">
-                Odabrani "tajni_ključ.txt" će se dekriptirati u sljedeći tekst
+                Automatski generirani <b>"tajni_ključ.txt"</b> će se koristiti radi dekriptiranje odabrane kriptirane datoteke
               </Form.Text>
             </Form.Group>
 
             <Button variant="primary" type="submit">
               Dekriptiraj
-              </Button>
+            </Button>
+            </Form>
+            
             <br></br>
             <br></br>
             <hr></hr>
@@ -29,7 +31,6 @@ class SymmetricDecryption extends React.Component {
             <h3>Dekriptirani tekst</h3>
             <br></br>
             <p>Neki tekst koji se upravo dekriptirao bla bla bla</p>
-          </Form>
         </Container>
       </React.Fragment>
     );

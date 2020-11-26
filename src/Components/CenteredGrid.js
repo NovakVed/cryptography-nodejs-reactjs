@@ -5,6 +5,8 @@ import symmetricEncryptionImage from '../images/symmetricEncryptionImage.jpg';
 import symmetricDecryptionImage from '../images/symmetricDecryptionImage.png';
 import asymmetricEncryptionImage from '../images/asymmetricEncryptionImage.png';
 import asymmetricDecryptionImage from '../images/asymmetricDecryptionImage.jpg';
+import messageSummaryImage from '../images/messageSummaryImage.png';
+import digitalSignatureImage from '../images/digitalSignatureImage.jpg';
 import { Link } from 'react-router-dom';
 
 export default function CenteredGrid() {
@@ -54,6 +56,31 @@ export default function CenteredGrid() {
         </Card.Body>
       </Card>
     </CardDeck>
+
+    <br></br>
+    <br></br>
+
+    <CardDeck>
+      <Card>
+        <Card.Img variant="top" style={{ height: '250px' }} src={messageSummaryImage} />
+        <Card.Body>
+          <Card.Title>Sažetak poruke</Card.Title>
+          <Link to={'/messageSummary'}>
+            <Button variant="primary">Otvori</Button>
+          </Link>
+        </Card.Body>
+      </Card>
+      <Card>
+        <Card.Img variant="top" style={{ height: '250px' }} src={digitalSignatureImage} />
+        <Card.Body>
+          <Card.Title>Digitalni potpis</Card.Title>
+          <Link to={'/digitalSignature'}>
+            <Button variant="primary">Otvori</Button>
+          </Link>
+        </Card.Body>
+      </Card>
+    </CardDeck>
+
     <br></br>
     <br></br>
     <br></br>

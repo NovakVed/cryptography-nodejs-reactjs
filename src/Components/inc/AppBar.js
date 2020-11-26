@@ -7,7 +7,7 @@ class AppBar extends React.Component {
       <React.Fragment>
         <Navbar bg="light" variant="light">
           <Navbar.Brand>
-            <pre>OS2 - Digitalno potpisivanje</pre>
+            <pre>PROJEKT</pre>
           </Navbar.Brand>
         </Navbar>
       </React.Fragment>
