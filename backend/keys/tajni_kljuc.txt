@@ -1,0 +1,28 @@
+async (plaintext) => {
+        /**
+         * Generate a new IV for each message encrypted with the same key:
+         * - https://crypto.stackexchange.com/questions/3965/what-is-the-main-difference-between-a-key-an-iv-and-a-nonce
+         * - https://crypto.stackexchange.com/questions/26790/how-bad-it-is-using-the-same-iv-twice-with-aes-gcm
+         */
+        const iv = await util_1.promisify(crypto_1.randomBytes)(INITIALIZATION_VECTOR_LENGTH_BYTES);
+        const cipher = crypto_1.createCipheriv(ENCRYPTION_ALGORITHM, encryptionKey, iv);
+        const ciphertext = Buffer.concat([
+            cipher.update(Buffer.from(plaintext)),
+            cipher.final()
+        ]);
+        return {
+            ciphertext: ciphertext.toString('base64'),
+            encryptionConfig: {
+                algorithm: ENCRYPTION_ALGORITHM,
+                iv: iv.toString('base64'),
+                authTag: cipher.getAuthTag().toString('base64')
+            },
+            keyDerivationConfig: {
+                algorithm: defaultConfig.KEY_DERIVATION_ALGORITHM,
+                length: KEY_LENGTH_BYTES,
+                salt: salt.toString('base64'),
+                opsLimit: defaultConfig.KEY_DERIVATION_OPSLIMIT,
+                memLimit: defaultConfig.KEY_DERIVATION_MEMLIMIT
+            }
+        };
+    }

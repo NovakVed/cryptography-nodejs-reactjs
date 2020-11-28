@@ -1,15 +1,41 @@
 const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+
 const app = express();
-const port = 5000;
 
-app.get('/api/customers', (req, res) => {
-    const customers = [
-        {id: 1, firstName: 'Vedran', lastName: 'Novak'},
-        {id: 1, firstName: 'Alo', lastName: 'Marty'},
-        {id: 1, firstName: 'Mickey', lastName: 'Den'}
-    ];
+const port = 3001;
 
-    res.json(customers);
+//use cors to allow cross origin resource sharing
+app.use(
+    cors({
+      origin: 'http://localhost:3000',
+      credentials: true,
+    })
+  );
+  
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+let t = '';
+
+
+app.get('/get', function (req, res) {
+    console.log('Server sends response');
+
+    res.writeHead(200, {
+        'Content-Type': 'application/json',
+    });
+
+    t = t + ' Vracanje odgovora!!!'; 
+    res.end(JSON.stringify(t));
 });
 
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.post('/send', function(req, res) {
+    const send = req.body.varString ;
+    t = send;
+
+	res.send('String is sent');
+  });
+
+app.listen(port, () => console.log(`Server listening on port ${port}`));

@@ -1,18 +1,57 @@
 import React from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class SymmetricEncryption extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      varString: '',
+      varEncrypted: '',
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
+  };
+
+  handleChange(event) {
+    this.setState({ varString: event.target.value })
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+
+    const { varString } = this.state;
+
+    const sendString = {
+      varString,
+    };
+
+    //sendString has to be an object
+    axios.post("http://localhost:3001/send", sendString)
+      .then(res => { console.log('String is sent') })
+      .catch(err => { console.error(err) })
+
+    //get response
+    axios.get("http://localhost:3001/get")
+      .then(res => {
+        this.setState({ varEncrypted: res.data })
+      })
+      .catch(err => { console.error(err) })
+  }
+
   render() {
     return (
       <React.Fragment>
         <Container>
           <h2>Simetrično kriptiranje</h2>
           <br></br>
-          <Form>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
               <Form.Label>Upiši željeni tekst za kriptiranje</Form.Label>
-              <Form.Control as="textarea" rows={3} />
+              <Form.Control type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
               <Form.Text className="text-muted">
                 Upisani kriptirani tekst spremit će se u datoteku <b>"text.txt"</b>
               </Form.Text>
@@ -33,12 +72,12 @@ class SymmetricEncryption extends React.Component {
 
           <h3>Tekst je uspješno kriptiran!</h3>
           <br></br>
-          <Form.Group controlId="exampleForm.ControlTextarea1">
+          <Form.Group controlId="ControlTextArea2">
             <Form.Label>Kriptirana datoteka <b>text.txt</b></Form.Label>
-            <Form.Control as="textarea" rows={3} />
+            <Form.Control type="text" value={this.state.varEncrypted} onChange={this.handleChange} as="textarea" rows={3} />
             <Form.Text className="text-muted">
               Automatski se generirao simetrični tajni ključ u datoteci <b>"tajni_ključ.txt"</b>
-              </Form.Text>
+            </Form.Text>
           </Form.Group>
           <Link to="/symmetricDecryption">
             <Button variant="primary" className="float-right" type="button">
