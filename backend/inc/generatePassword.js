@@ -1,3 +1,4 @@
+//npm modules
 const generator = require('generate-password');
 
 function generatePassword() {

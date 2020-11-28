@@ -53,7 +53,7 @@ class SymmetricEncryption extends React.Component {
               <Form.Label>Upiši željeni tekst za kriptiranje</Form.Label>
               <Form.Control type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
               <Form.Text className="text-muted">
-                Upisani kriptirani tekst spremit će se u datoteku <b>"text.txt"</b>
+                Upisani kriptirani tekst spremit će se u datoteku <b>"symmetric_encryption_file.txt"</b>
               </Form.Text>
             </Form.Group>
 
@@ -68,15 +68,14 @@ class SymmetricEncryption extends React.Component {
           <hr></hr>
 
           <br></br>
-          <br></br>
 
-          <h3>Tekst je uspješno kriptiran!</h3>
+          <h3>{this.state.varEncrypted === '' ? '' : 'Tekst je uspješno kriptiran!'}</h3>
           <br></br>
           <Form.Group controlId="ControlTextArea2">
-            <Form.Label>Kriptirana datoteka <b>text.txt</b></Form.Label>
-            <Form.Control type="text" value={this.state.varEncrypted} onChange={this.handleChange} as="textarea" rows={3} />
+            <Form.Label>Kriptirana datoteka <b>symmetric_encryption_file.txt</b></Form.Label>
+            <Form.Control disabled type="text" value={this.state.varEncrypted} onChange={this.handleChange} as="textarea" rows={3} />
             <Form.Text className="text-muted">
-              Automatski se generirao simetrični tajni ključ u datoteci <b>"tajni_ključ.txt"</b>
+              Automatski se generirao simetrični tajni ključ u datoteci <b>"tajni_kljuc.txt"</b>
             </Form.Text>
           </Form.Group>
           <Link to="/symmetricDecryption">

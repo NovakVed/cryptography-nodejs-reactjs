@@ -1,5 +1,8 @@
+//node modules
 const fs = require('fs');
 const generatePassword = require('../../inc/generatePassword');
+
+//npm modules
 const Cryptr = require('cryptr');
 
 let secretKey = '';
@@ -27,15 +30,5 @@ function createEncryptionFile(data) {
     });
 }
 
-function readEncryptedFile() {
-    fs.readFile('./encryptionFiles/symmetric_encryption_file.txt', 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        return data;
-    });
-}
-
 module.exports.createFileSecretKeySymmetric = createFileSecretKey;
 module.exports.createEncryptionFileSymmetric = createEncryptionFile;
-module.exports.readEncryptedFileSymmetric = readEncryptedFile;

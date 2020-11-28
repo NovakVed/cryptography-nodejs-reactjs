@@ -1,7 +1,11 @@
-const express = require('express');
-const cors = require('cors');
+//node modules
 const fs = require('fs');
 const symmetricEncryption = require('./encryption/symmetricServer/symmetricEncryption');
+const symmetricDecryption = require('./encryption/symmetricServer/symmetricDecryption');
+
+//npm modules
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 
@@ -19,6 +23,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//Symmetric encryption POST
 app.post('/symmetricEncryptionPost', function (req, res) {
   const send = req.body.varString;
   symmetricEncryption.createFileSecretKeySymmetric();
@@ -27,16 +32,34 @@ app.post('/symmetricEncryptionPost', function (req, res) {
   res.send('Created encrypted file');
 });
 
+//Symmetric encryption GET
 app.get('/symmetricEncryptionGet', function (req, res) {
   console.log('Server sends response');
-
   res.writeHead(200, {
     'Content-Type': 'application/json',
   });
 
-  //ERROR!! Ne želi se poslati JSON, niti učitati console.log(), dok se na samoj klasi ucitava!
-  console.log(symmetricEncryption.readEncryptedFileSymmetric());
-  res.end(JSON.stringify(symmetricEncryption.readEncryptedFileSymmetric()));
+  fs.readFile('./encryptionFiles/symmetric_encryption_file.txt', 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    res.end(JSON.stringify(data));
+  });
+});
+
+//Symmetric decryption GET
+app.get('/symmetricDecryptionGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile('./encryptionFiles/symmetric_encryption_file.txt', 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    fs.readFile('./keys/tajni_kljuc.txt', 'utf8', function (err, secretKey) {
+      if (err) { return console.log(err); }
+      decryptedFile = symmetricDecryption.decrypt(data, secretKey);
+      res.end(JSON.stringify(decryptedFile));
+    });
+  });
 });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

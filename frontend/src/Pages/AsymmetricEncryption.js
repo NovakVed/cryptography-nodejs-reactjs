@@ -14,7 +14,7 @@ class AsymmetricEncryption extends React.Component {
                             <Form.Label>Upiši željeni tekst za kriptiranje</Form.Label>
                             <Form.Control as="textarea" rows={3} />
                             <Form.Text className="text-muted">
-                                Upisani kriptirani tekst spremit će se u datoteku <b>"text.txt"</b>
+                                Upisani kriptirani tekst spremit će se u datoteku <b>"asymmetric_encryption_file.txt"</b>
                             </Form.Text>
                         </Form.Group>
 
