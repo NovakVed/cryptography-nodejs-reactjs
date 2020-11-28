@@ -2,6 +2,8 @@
 const fs = require('fs');
 const symmetricEncryption = require('./encryption/symmetricServer/symmetricEncryption');
 const symmetricDecryption = require('./encryption/symmetricServer/symmetricDecryption');
+const asymmetricEncryption = require('./encryption/asymmetricServer/asymmetricEncryption');
+const asymmetricDecryption = require('./encryption/asymmetricServer/asymmetricDecryption');
 
 //npm modules
 const express = require('express');
@@ -67,8 +69,9 @@ app.get('/symmetricDecryptionGet', function (req, res) {
 //Asymmetric encryption POST
 app.post('/asymmetricEncryptionPost', function (req, res) {
   const send = req.body.varString;
-  symmetricEncryption.createFileSecretKeySymmetric();
-  symmetricEncryption.createEncryptionFileSymmetric(send);
+  asymmetricEncryption.createFilePublicKey();
+  asymmetricEncryption.createFilePrivateKey();
+  asymmetricEncryption.createEncryptionFile(send);
 
   res.send('Created encrypted file');
 });
@@ -80,9 +83,28 @@ app.get('/asymmetricEncryptionGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
+  //send res data from created encrypted file
+  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'base64', function (err, data) {
     if (err) { return console.log(err); }
+    console.log(data);
     res.end(JSON.stringify(data));
+  });
+});
+
+//Asymmetric decryption GET
+app.get('/asymmetricDecryptionGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'base64', function (err, data) {
+    if (err) { return console.log(err); }
+    fs.readFile('./keys/privatni_kljuc.txt', 'utf8', function (err, privateKey) {
+      if (err) { return console.log(err); }
+      decryptedFile = asymmetricDecryption.decrypt(data, privateKey);
+      res.end(JSON.stringify(decryptedFile));
+    });
   });
 });
 

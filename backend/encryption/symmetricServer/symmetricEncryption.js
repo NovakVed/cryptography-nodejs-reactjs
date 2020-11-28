@@ -9,7 +9,6 @@ let secretKey = '';
 
 function generateSecretKey() {
     secretKey = generatePassword.generatePassword();
-    console.log(secretKey);
 }
 
 function createFileSecretKey() {
@@ -22,9 +21,9 @@ function createFileSecretKey() {
 
 function createEncryptionFile(data) {
     const cryptr = new Cryptr(secretKey);
-    const fileData = cryptr.encrypt(data);
+    const encryptedString = cryptr.encrypt(data);
 
-    fs.writeFile('./encryptionFiles/symmetric_encryption_file.txt', fileData, (err) => {
+    fs.writeFile('./encryptionFiles/symmetric_encryption_file.txt', encryptedString, (err) => {
         if (err) throw err;
         console.log('symmetric_encryption_file.txt has been saved!');
     });

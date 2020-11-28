@@ -6,52 +6,52 @@ import axios from 'axios';
 class AsymmetricEncryption extends React.Component {
     constructor(props) {
         super(props)
-    
+
         this.state = {
-          varString: '',
-          varEncrypted: '',
+            varString: '',
+            varEncrypted: '',
         }
-    
+
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
-      };
-    
-      handleChange(event) {
+    };
+
+    handleChange(event) {
         this.setState({ varString: event.target.value })
-      }
-    
-      async handleSubmit(event) {
+    }
+
+    async handleSubmit(event) {
         event.preventDefault()
-    
+
         const { varString } = this.state;
-    
+
         const sendString = {
-          varString,
+            varString,
         };
-    
+
         //sendString has to be an object
         await axios.post("http://localhost:3001/asymmetricEncryptionPost", sendString)
-          .then(res => { console.log('String is sent') })
-          .catch(err => { console.error(err) })
-    
+            .then(res => { console.log('String is sent') })
+            .catch(err => { console.error(err) })
+
         //get response
         await axios.get("http://localhost:3001/asymmetricEncryptionGet")
-          .then(res => {
-            this.setState({ varEncrypted: res.data })
-          })
-          .catch(err => { console.error(err) })
-      }
-    
+            .then(res => {
+                this.setState({ varEncrypted: res.data })
+            })
+            .catch(err => { console.error(err) })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <Container>
                     <h2>Asimetrično kriptiranje</h2>
                     <br></br>
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Group controlId="ControlTextarea1">
                             <Form.Label>Upiši željeni tekst za kriptiranje</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
+                            <Form.Control type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
                             <Form.Text className="text-muted">
                                 Upisani kriptirani tekst spremit će se u datoteku <b>"asymmetric_encryption_file.txt"</b>
                             </Form.Text>
@@ -68,13 +68,12 @@ class AsymmetricEncryption extends React.Component {
                     <hr></hr>
 
                     <br></br>
-                    <br></br>
 
-                    <h3>Tekst je uspješno kriptiran!</h3>
+                    <h3>{this.state.varEncrypted === '' ? '' : 'Tekst je uspješno kriptiran!'}</h3>
                     <br></br>
-                    <Form.Group controlId="exampleForm.ControlTextarea1">
-                        <Form.Label>Kriptirana datoteka <b>text.txt</b></Form.Label>
-                        <Form.Control as="textarea" rows={3} />
+                    <Form.Group controlId="ControlTextarea2">
+                        <Form.Label>Kriptirana datoteka <b>asymmetric_encryption_file.txt</b></Form.Label>
+                        <Form.Control disabled type="text" value={this.state.varEncrypted} onChange={this.handleChange} as="textarea" rows={3} />
                         <Form.Text className="text-muted">
                             Automatski su se generiralni javni i privatni ključevi unutar datoteka <b>"javni_ključ.txt"</b> i <b>"prvatni_ključ.txt"</b>
                         </Form.Text>

@@ -16,7 +16,7 @@ function decrypt(data, secretKey) {
 function createDecryptionFile(data) {
     fs.writeFile('./encryptionFiles/symmetric_decryption_file.txt', data, (err) => {
         if (err) throw err;
-        console.log('symmetric_encryption_file.txt has been saved!');
+        console.log('symmetric_decryption_file.txt has been saved!');
     });
 }
 
