@@ -20,7 +20,7 @@ class SymmetricEncryption extends React.Component {
     this.setState({ varString: event.target.value })
   }
 
-  handleSubmit(event) {
+  async handleSubmit(event) {
     event.preventDefault()
 
     const { varString } = this.state;
@@ -30,12 +30,12 @@ class SymmetricEncryption extends React.Component {
     };
 
     //sendString has to be an object
-    axios.post("http://localhost:3001/send", sendString)
+    await axios.post("http://localhost:3001/symmetricEncryptionPost", sendString)
       .then(res => { console.log('String is sent') })
       .catch(err => { console.error(err) })
 
     //get response
-    axios.get("http://localhost:3001/get")
+    await axios.get("http://localhost:3001/symmetricEncryptionGet")
       .then(res => {
         this.setState({ varEncrypted: res.data })
       })
@@ -81,8 +81,8 @@ class SymmetricEncryption extends React.Component {
           </Form.Group>
           <Link to="/symmetricDecryption">
             <Button variant="primary" className="float-right" type="button">
-              Sljedeća stranica  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
+              Sljedeća stranica  <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-arrow-right" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fillRule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z" />
               </svg>
             </Button>
           </Link>
