@@ -62,4 +62,28 @@ app.get('/symmetricDecryptionGet', function (req, res) {
   });
 });
 
+/* *********************************************************** */
+
+//Asymmetric encryption POST
+app.post('/asymmetricEncryptionPost', function (req, res) {
+  const send = req.body.varString;
+  symmetricEncryption.createFileSecretKeySymmetric();
+  symmetricEncryption.createEncryptionFileSymmetric(send);
+
+  res.send('Created encrypted file');
+});
+
+//Asymmetric encryption GET
+app.get('/asymmetricEncryptionGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    res.end(JSON.stringify(data));
+  });
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));

@@ -1,8 +1,47 @@
 import React from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class AsymmetricEncryption extends React.Component {
+    constructor(props) {
+        super(props)
+    
+        this.state = {
+          varString: '',
+          varEncrypted: '',
+        }
+    
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+      };
+    
+      handleChange(event) {
+        this.setState({ varString: event.target.value })
+      }
+    
+      async handleSubmit(event) {
+        event.preventDefault()
+    
+        const { varString } = this.state;
+    
+        const sendString = {
+          varString,
+        };
+    
+        //sendString has to be an object
+        await axios.post("http://localhost:3001/asymmetricEncryptionPost", sendString)
+          .then(res => { console.log('String is sent') })
+          .catch(err => { console.error(err) })
+    
+        //get response
+        await axios.get("http://localhost:3001/asymmetricEncryptionGet")
+          .then(res => {
+            this.setState({ varEncrypted: res.data })
+          })
+          .catch(err => { console.error(err) })
+      }
+    
     render() {
         return (
             <React.Fragment>
