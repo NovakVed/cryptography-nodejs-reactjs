@@ -84,9 +84,8 @@ app.get('/asymmetricEncryptionGet', function (req, res) {
   });
 
   //send res data from created encrypted file
-  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'base64', function (err, data) {
+  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    console.log(data);
     res.end(JSON.stringify(data));
   });
 });
@@ -98,7 +97,7 @@ app.get('/asymmetricDecryptionGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'base64', function (err, data) {
+  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     fs.readFile('./keys/privatni_kljuc.txt', 'utf8', function (err, privateKey) {
       if (err) { return console.log(err); }

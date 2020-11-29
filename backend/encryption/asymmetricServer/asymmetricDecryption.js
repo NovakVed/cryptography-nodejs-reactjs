@@ -6,13 +6,10 @@ const NodeRSA = require('node-rsa');
 
 function decrypt(data, privateKey) {
     let private_key = new NodeRSA(privateKey);
-    
-    console.log(data);
     let decryptedString = private_key.decrypt(data, 'utf8');
-    console.log(decryptedString);
-    //createDecryptionFile(decryptedString);
+    createDecryptionFile(decryptedString);
 
-    return 'decryptedString';
+    return decryptedString;
 }
 
 function createDecryptionFile(data) {

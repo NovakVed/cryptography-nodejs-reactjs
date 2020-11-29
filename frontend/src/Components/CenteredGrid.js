@@ -40,7 +40,7 @@ export default function CenteredGrid() {
       <Card>
         <Card.Img variant="top" style={{ height: '250px' }} src={asymmetricEncryptionImage} />
         <Card.Body>
-          <Card.Title>Simetrično kriptiranje</Card.Title>
+          <Card.Title>Asimetrično kriptiranje</Card.Title>
           <Link to={'/asymmetricEncryption'}>
             <Button variant="primary">Otvori</Button>
           </Link>
@@ -49,7 +49,7 @@ export default function CenteredGrid() {
       <Card>
         <Card.Img variant="top" style={{ height: '250px' }} src={asymmetricDecryptionImage} />
         <Card.Body>
-          <Card.Title>Simetrično dekriptiranje</Card.Title>
+          <Card.Title>Asimetrično dekriptiranje</Card.Title>
           <Link to={'/asymmetricDecryption'}>
             <Button variant="primary">Otvori</Button>
           </Link>

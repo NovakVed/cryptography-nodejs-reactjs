@@ -43,7 +43,7 @@ class AsymmetricDecryption extends React.Component {
         return (
             <React.Fragment>
                 <Container>
-                    <h2>Simetrično dekriptiranje</h2>
+                    <h2>Asimetrično dekriptiranje</h2>
                     <br></br>
                     <Form onSubmit={this.handleSubmit}>
                         <p>Automatski je izvađena datoteka <b>privatni_kljuc.txt</b> koja sadrži privatni ključ potreban za dekriptiranje</p>
