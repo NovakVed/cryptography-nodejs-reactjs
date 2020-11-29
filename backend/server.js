@@ -1,5 +1,6 @@
 //node modules
 const fs = require('fs');
+var crypto = require('crypto');
 const symmetricEncryption = require('./encryption/symmetricServer/symmetricEncryption');
 const symmetricDecryption = require('./encryption/symmetricServer/symmetricDecryption');
 const asymmetricEncryption = require('./encryption/asymmetricServer/asymmetricEncryption');
@@ -24,6 +25,19 @@ app.use(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//Read file text.txt
+app.get('/textFileGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile('./text.txt', 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    res.end(JSON.stringify(data));
+  });
+})
 
 //Symmetric encryption POST
 app.post('/symmetricEncryptionPost', function (req, res) {
@@ -106,5 +120,26 @@ app.get('/asymmetricDecryptionGet', function (req, res) {
     });
   });
 });
+
+/* *********************************************************** */
+
+//Hashing GET
+app.get('/hashingGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile('./text.txt', 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    res.end(JSON.stringify(crypto.createHash('sha256').update(data).digest('hex')));
+  });
+});
+
+/* *********************************************************** */
+
+//Digital signature
+
+//Digital signature check
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

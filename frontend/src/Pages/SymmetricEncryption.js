@@ -20,6 +20,14 @@ class SymmetricEncryption extends React.Component {
     this.setState({ varString: event.target.value })
   }
 
+  componentDidMount() {
+    axios.get("http://localhost:3001/textFileGet")
+      .then(res => {
+        this.setState({ varString: res.data })
+      })
+      .catch(err => { console.error(err) })
+  }
+
   async handleSubmit(event) {
     event.preventDefault()
 
@@ -51,7 +59,7 @@ class SymmetricEncryption extends React.Component {
           <Form onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Upiši željeni tekst za kriptiranje</Form.Label>
-              <Form.Control type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
+              <Form.Control disabled type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
               <Form.Text className="text-muted">
                 Upisani kriptirani tekst spremit će se u datoteku <b>"symmetric_encryption_file.txt"</b>
               </Form.Text>

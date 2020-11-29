@@ -20,6 +20,7 @@ function createFileSecretKey() {
 }
 
 function createEncryptionFile(data) {
+    //aes-256-gcm
     const cryptr = new Cryptr(secretKey);
     const encryptedString = cryptr.encrypt(data);
 

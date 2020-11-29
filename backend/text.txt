@@ -1,0 +1,1 @@
+Moje ime je Vedran Novak, a ovo je tekst na kojem će se provoditi algoritmi kriptiranja i dekriptiranja.
