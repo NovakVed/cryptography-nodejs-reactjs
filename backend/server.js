@@ -26,27 +26,51 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+let setDirectoryPath = '';
+
 //Read file text.txt
 app.get('/textFileGet', function (req, res) {
-  console.log('Server sends response');
-  res.writeHead(200, {
-    'Content-Type': 'application/json',
-  });
-
-  fs.readFile('./text.txt', 'utf8', function (err, data) {
+  fs.readFile('./files/text.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     res.end(JSON.stringify(data));
   });
 })
 
+app.post('/textFilePost', function (req, res) {
+    let send = req.body.varSelectedFile;
+    setDirectoryPath = './files/' + send;
+
+    fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
+      if (err) { return console.log(err); }
+      res.end(JSON.stringify(data));
+    });
+  })
+
+//Get all files from directory 'files'
+app.get('/getAllFiles', function (req, res) {
+    console.log('Server sends response');
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+    });
+
+    const folder = './files/';
+    let filesArr = [];
+    fs.readdir(folder, (err, files) => {
+      files.forEach(file => {
+        filesArr.push(file);
+      });
+      res.end(JSON.stringify(filesArr));
+    });
+  })
+
 //Symmetric encryption POST
 app.post('/symmetricEncryptionPost', function (req, res) {
-  const send = req.body.varString;
-  symmetricEncryption.createFileSecretKeySymmetric();
-  symmetricEncryption.createEncryptionFileSymmetric(send);
+    const send = req.body.varString;
+    symmetricEncryption.createFileSecretKeySymmetric();
+    symmetricEncryption.createEncryptionFileSymmetric(send);
 
-  res.send('Created encrypted file');
-});
+    res.send('Created encrypted file');
+  });
 
 //Symmetric encryption GET
 app.get('/symmetricEncryptionGet', function (req, res) {
@@ -55,7 +79,7 @@ app.get('/symmetricEncryptionGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./encryptionFiles/symmetric_encryption_file.txt', 'utf8', function (err, data) {
+  fs.readFile('./files/symmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     res.end(JSON.stringify(data));
   });
@@ -68,9 +92,9 @@ app.get('/symmetricDecryptionGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./encryptionFiles/symmetric_encryption_file.txt', 'utf8', function (err, data) {
+  fs.readFile('./files/symmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    fs.readFile('./keys/tajni_kljuc.txt', 'utf8', function (err, secretKey) {
+    fs.readFile('./files/tajni_kljuc.txt', 'utf8', function (err, secretKey) {
       if (err) { return console.log(err); }
       decryptedFile = symmetricDecryption.decrypt(data, secretKey);
       res.end(JSON.stringify(decryptedFile));
@@ -98,7 +122,7 @@ app.get('/asymmetricEncryptionGet', function (req, res) {
   });
 
   //send res data from created encrypted file
-  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
+  fs.readFile('./files/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
     res.end(JSON.stringify(data));
   });
@@ -111,9 +135,9 @@ app.get('/asymmetricDecryptionGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./encryptionFiles/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
+  fs.readFile('./files/asymmetric_encryption_file.txt', 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    fs.readFile('./keys/privatni_kljuc.txt', 'utf8', function (err, privateKey) {
+    fs.readFile('./files/privatni_kljuc.txt', 'utf8', function (err, privateKey) {
       if (err) { return console.log(err); }
       decryptedFile = asymmetricDecryption.decrypt(data, privateKey);
       res.end(JSON.stringify(decryptedFile));
@@ -130,9 +154,15 @@ app.get('/hashingGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile('./text.txt', 'utf8', function (err, data) {
+  fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    res.end(JSON.stringify(crypto.createHash('sha256').update(data).digest('hex')));
+    let varHash = crypto.createHash('sha256').update(data).digest('hex');
+    res.end(JSON.stringify(varHash));
+
+    fs.writeFile('./files/hash.txt', varHash, (err) => {
+      if (err) throw err;
+      console.log('hash.txt has been saved!');
+    });
   });
 });
 

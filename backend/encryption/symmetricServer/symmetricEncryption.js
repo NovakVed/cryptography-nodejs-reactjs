@@ -13,7 +13,7 @@ function generateSecretKey() {
 
 function createFileSecretKey() {
     generateSecretKey();
-    fs.writeFile('./keys/tajni_kljuc.txt', secretKey, (err) => {
+    fs.writeFile('./files/tajni_kljuc.txt', secretKey, (err) => {
         if (err) throw err;
         console.log('tajni_kljuc.txt has been saved!');
     });
@@ -24,7 +24,7 @@ function createEncryptionFile(data) {
     const cryptr = new Cryptr(secretKey);
     const encryptedString = cryptr.encrypt(data);
 
-    fs.writeFile('./encryptionFiles/symmetric_encryption_file.txt', encryptedString, (err) => {
+    fs.writeFile('./files/symmetric_encryption_file.txt', encryptedString, (err) => {
         if (err) throw err;
         console.log('symmetric_encryption_file.txt has been saved!');
     });

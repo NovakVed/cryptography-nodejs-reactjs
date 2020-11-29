@@ -1,12 +1,12 @@
 import React from 'react';
 import { Card, Button, CardDeck } from 'react-bootstrap';
 
-import symmetricEncryptionImage from '../images/symmetricEncryptionImage.jpg';
-import symmetricDecryptionImage from '../images/symmetricDecryptionImage.png';
-import asymmetricEncryptionImage from '../images/asymmetricEncryptionImage.png';
-import asymmetricDecryptionImage from '../images/asymmetricDecryptionImage.jpg';
-import messageSummaryImage from '../images/messageSummaryImage.png';
-import digitalSignatureImage from '../images/digitalSignatureImage.jpg';
+import symmetricEncryptionImage from '../images/symmetricEncryptionImage.webp';
+import symmetricDecryptionImage from '../images/symmetricDecryptionImage.webp';
+import asymmetricEncryptionImage from '../images/asymmetricEncryptionImage.webp';
+import asymmetricDecryptionImage from '../images/asymmetricDecryptionImage.webp';
+import messageSummaryImage from '../images/messageSummaryImage.webp';
+import digitalSignatureImage from '../images/digitalSignatureImage.webp';
 import { Link } from 'react-router-dom';
 
 export default function CenteredGrid() {

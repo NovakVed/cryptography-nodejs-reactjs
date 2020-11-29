@@ -13,7 +13,7 @@ function decrypt(data, privateKey) {
 }
 
 function createDecryptionFile(data) {
-    fs.writeFile('./encryptionFiles/asymmetric_decryption_file.txt', data, (err) => {
+    fs.writeFile('./files/asymmetric_decryption_file.txt', data, (err) => {
         if (err) throw err;
         console.log('asymmetric_decryption_file.txt has been saved!');
     });
