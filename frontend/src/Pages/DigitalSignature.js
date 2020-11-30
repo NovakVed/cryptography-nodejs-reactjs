@@ -51,6 +51,7 @@ class DigitalSignature extends React.Component {
         await axios.get('http://localhost:3001/digitalSignatureCheckGet')
             .then(res => {
                 this.setState({ varCheckSignature: res.data })
+                console.log(this.state.varCheckSignature)
             })
             .catch(err => { console.error(err) })
     }
@@ -84,6 +85,11 @@ class DigitalSignature extends React.Component {
         return (
             <React.Fragment>
                 <Container>
+                    { this.state.varCheckSignature ? <Alert key={1} variant="success">
+                            Digitalni potpis <b>je ispravan!</b>
+                        </Alert> : <Alert key={2} variant="danger">
+                            Digitalni potpis <b>nije ispravan!</b>
+                        </Alert> }
                     <h2>Sažetak poruke</h2>
                     <br></br>
                     <Form onSubmit={this.handleSubmit}>
@@ -118,6 +124,7 @@ class DigitalSignature extends React.Component {
                     <br></br>
 
                     <hr></hr>
+
                     <br></br>
 
                     <h3>{this.state.varDigitalSignature === '' ? '' : 'Digitalni potpis je uspješno kreiran!'}</h3>
@@ -134,12 +141,6 @@ class DigitalSignature extends React.Component {
                         </Button>
                     <br></br>
                     <br></br>
-                    <br></br>
-                    { this.state.varCheckSignature ? <Alert key={1} variant="success">
-                            Digitalni potpis <b>je ispravan</b>
-                        </Alert> : <Alert key={2} variant="danger">
-                            Digitalni potpis <b>nije ispravan!</b>
-                        </Alert> }
                 </Container>
             </React.Fragment>
         );
