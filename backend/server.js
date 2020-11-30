@@ -38,40 +38,40 @@ app.get('/textFileGet', function (req, res) {
 })
 
 app.post('/textFilePost', function (req, res) {
-    let send = req.body.varSelectedFile;
-    setDirectoryPath = './files/' + send;
+  let send = req.body.varSelectedFile;
+  setDirectoryPath = './files/' + send;
 
-    fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
-      if (err) { return console.log(err); }
-      res.end(JSON.stringify(data));
-    });
-  })
+  fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    res.end(JSON.stringify(data));
+  });
+})
 
 //Get all files from directory 'files'
 app.get('/getAllFiles', function (req, res) {
-    console.log('Server sends response');
-    res.writeHead(200, {
-      'Content-Type': 'application/json',
-    });
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
 
-    const folder = './files/';
-    let filesArr = [];
-    fs.readdir(folder, (err, files) => {
-      files.forEach(file => {
-        filesArr.push(file);
-      });
-      res.end(JSON.stringify(filesArr));
+  const folder = './files/';
+  let filesArr = [];
+  fs.readdir(folder, (err, files) => {
+    files.forEach(file => {
+      filesArr.push(file);
     });
-  })
+    res.end(JSON.stringify(filesArr));
+  });
+})
 
 //Symmetric encryption POST
 app.post('/symmetricEncryptionPost', function (req, res) {
-    const send = req.body.varString;
-    symmetricEncryption.createFileSecretKeySymmetric();
-    symmetricEncryption.createEncryptionFileSymmetric(send);
+  const send = req.body.varString;
+  symmetricEncryption.createFileSecretKeySymmetric();
+  symmetricEncryption.createEncryptionFileSymmetric(send);
 
-    res.send('Created encrypted file');
-  });
+  res.send('Created encrypted file');
+});
 
 //Symmetric encryption GET
 app.get('/symmetricEncryptionGet', function (req, res) {
@@ -178,7 +178,7 @@ app.get('/digitalSignatureGet', function (req, res) {
 
   fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    
+
     res.end(JSON.stringify(varHash));
 
     fs.writeFile('./files/digital_signature.txt', varHash, (err) => {
@@ -189,5 +189,17 @@ app.get('/digitalSignatureGet', function (req, res) {
 });
 
 //Digital signature check
+app.get('/digitalSignatureCheckGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile(setDirectoryPath, 'utf8', function (err, signature) {
+    if (err) { return console.log(err); }
+    if (key.verify(data, signature)) res.end(JSON.stringify('Digitalni potpis je ispravan'));
+    else res.end(JSON.stringify('Digitalni potpis je ne ispravan'));
+  });
+});
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

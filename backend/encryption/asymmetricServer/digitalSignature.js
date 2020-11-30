@@ -14,8 +14,13 @@ function createFileDigitalSignature(data) {
     });
 }
 
-function checkSignDocument(){
-    if()
+function checkSignDocument(NodeRSAData){
+    fs.readFile(setDirectoryPath, 'utf8', function (err, signature) {
+        if (err) { return console.log(err); }
+        
+        if(key.verify(data, signature)) return true;
+        else return false;
+    });
 }
 
 module.exports.createFileDigitalSignature = createFileDigitalSignature;
