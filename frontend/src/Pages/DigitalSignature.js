@@ -8,7 +8,8 @@ class DigitalSignature extends React.Component {
 
         this.state = {
             varString: '',
-            varEncrypted: '',
+            varDigitalSignature: '',
+            varCheckSignature: false,
             varSelectedFile: '',
             varAllFiles: []
         }
@@ -17,6 +18,7 @@ class DigitalSignature extends React.Component {
         this.handleSelectChange = this.handleSelectChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleClick = this.handleClick.bind(this)
+        this.handleCheckSignature = this.handleCheckSignature.bind(this)
     };
 
     handleChange(event) {
@@ -43,6 +45,17 @@ class DigitalSignature extends React.Component {
             .catch(err => { console.error(err) })
     }
 
+    async handleCheckSignature(event) {
+        event.preventDefault()
+
+        await axios.get('http://localhost:3001/digitalSignatureCheckGet')
+            .then(res => {
+                this.setState({ varCheckSignature: res.data })
+                console.log(this.state.varCheckSignature)
+            })
+            .catch(err => { console.error(err) })
+    }
+
     componentDidMount() {
         axios.get("http://localhost:3001/getAllFiles")
             .then(res => {
@@ -57,7 +70,7 @@ class DigitalSignature extends React.Component {
         //get response
         await axios.get("http://localhost:3001/digitalSignatureGet")
             .then(res => {
-                this.setState({ varEncrypted: res.data })
+                this.setState({ varDigitalSignature: res.data })
             })
             .catch(err => { console.error(err) })
     }
@@ -109,22 +122,21 @@ class DigitalSignature extends React.Component {
 
                     <br></br>
 
-                    <h3>{this.state.varEncrypted === '' ? '' : 'Digitalni potpis je uspješno kreiran!'}</h3>
+                    <h3>{this.state.varDigitalSignature === '' ? '' : 'Digitalni potpis je uspješno kreiran!'}</h3>
                     <br></br>
                     <Form.Group controlId="ControlTextarea2">
                         <Form.Label>Učitana datoteka <b>digitalni_potpis.txt</b></Form.Label>
-                        <Form.Control disabled type="text" value={this.state.varEncrypted} onChange={this.handleChange} as="textarea" rows={3} />
+                        <Form.Control disabled type="text" value={this.state.varDigitalSignature} onChange={this.handleChange} as="textarea" rows={3} />
                         <Form.Text className="text-muted">
                             Automatski su se generiralni digitalni potpis unutar datoteke <b>"digitalni_potpis.txt"</b>
                         </Form.Text>
                     </Form.Group>
-                    <Button variant="primary" className="col text-center" type="button">
+                    <Button variant="primary" className="col text-center" type="button" onClick={this.handleCheckSignature}>
                         Provjeri digitalni potpis
                         </Button>
                     <br></br>
                     <br></br>
-                    <h3>Digitalni potpis je ispravan</h3>
-                    <h3>Digitalni potpis je neispravan</h3>
+                    <h3>{ this.state.varCheckSignature ? 'Digitalni potpis je ispravan' : 'Digitalni potpis nije ispravan!' }</h3>
                 </Container>
             </React.Fragment>
         );

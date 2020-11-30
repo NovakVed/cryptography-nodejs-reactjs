@@ -179,12 +179,7 @@ app.get('/digitalSignatureGet', function (req, res) {
   fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
 
-    res.end(JSON.stringify(varHash));
-
-    fs.writeFile('./files/digital_signature.txt', varHash, (err) => {
-      if (err) throw err;
-      console.log('digital_signature.txt has been saved!');
-    });
+    res.end(JSON.stringify(digitalSignature.createFileDigitalSignature(data)));
   });
 });
 
@@ -195,10 +190,9 @@ app.get('/digitalSignatureCheckGet', function (req, res) {
     'Content-Type': 'application/json',
   });
 
-  fs.readFile(setDirectoryPath, 'utf8', function (err, signature) {
+  fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
-    if (key.verify(data, signature)) res.end(JSON.stringify('Digitalni potpis je ispravan'));
-    else res.end(JSON.stringify('Digitalni potpis je ne ispravan'));
+    if (digitalSignature.checkSignDocument(data)) res.end(JSON.stringify(true));
   });
 });
 
