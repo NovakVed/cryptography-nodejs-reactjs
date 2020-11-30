@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Alert, Form, Button, Container } from 'react-bootstrap';
 import axios from 'axios';
 
 class DigitalSignature extends React.Component {
@@ -85,6 +85,11 @@ class DigitalSignature extends React.Component {
         return (
             <React.Fragment>
                 <Container>
+                    { this.state.varCheckSignature ? <Alert key={1} variant="success">
+                            Digitalni potpis <b>je ispravan!</b>
+                        </Alert> : <Alert key={2} variant="danger">
+                            Digitalni potpis <b>nije ispravan!</b>
+                        </Alert> }
                     <h2>Sažetak poruke</h2>
                     <br></br>
                     <Form onSubmit={this.handleSubmit}>
@@ -136,7 +141,6 @@ class DigitalSignature extends React.Component {
                         </Button>
                     <br></br>
                     <br></br>
-                    <h3>{ this.state.varCheckSignature ? 'Digitalni potpis je ispravan' : 'Digitalni potpis nije ispravan!' }</h3>
                 </Container>
             </React.Fragment>
         );

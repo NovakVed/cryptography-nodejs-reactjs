@@ -1,23 +1,36 @@
 //node modules
 const fs = require('fs');
+const crypto = require("crypto")
 
-//npm modules
-const NodeRSA = require('node-rsa');
+const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+    // The standard secure default length for RSA keys is 2048 bits
+    modulusLength: 2048,
+})
 
-const key = new NodeRSA({ b: 512 });
-
-function createFileDigitalSignature(data) {
-    let sign = key.sign(data, 'base64');
-    fs.writeFile('./files/digital_signature.txt', sign, (err) => {
+function createSignatureFile(data) {
+    const signature = crypto.sign("sha256", Buffer.from(data), {
+        key: privateKey,
+        padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
+    })
+    fs.writeFile('./files/digital_signature.txt', signature.toString("base64"), (err) => {
         if (err) throw err;
         console.log('digital_signature.txt has been saved!');
     });
-    return sign;
+    return signature.toString("base64");
 }
 
-function checkSignDocument(data, signature) {
-    return key.verify(Buffer.from(data, 'utf8'), Buffer.from(signature, 'base64'));
+function verifySignature(data, signature) {
+    const isVerified = crypto.verify(
+        "sha256",
+        Buffer.from(data),
+        {
+            key: publicKey,
+            padding: crypto.constants.RSA_PKCS1_PSS_PADDING,
+        },
+        Buffer.from(signature, 'base64')
+    )
+    return isVerified;
 }
 
-module.exports.createFileDigitalSignature = createFileDigitalSignature;
-module.exports.checkSignDocument = checkSignDocument;
+module.exports.createSignatureFile = createSignatureFile;
+module.exports.verifySignature = verifySignature;
