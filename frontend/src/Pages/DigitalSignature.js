@@ -85,11 +85,6 @@ class DigitalSignature extends React.Component {
         return (
             <React.Fragment>
                 <Container>
-                    { this.state.varCheckSignature ? <Alert key={1} variant="success">
-                            Digitalni potpis <b>je ispravan!</b>
-                        </Alert> : <Alert key={2} variant="danger">
-                            Digitalni potpis <b>nije ispravan!</b>
-                        </Alert> }
                     <h2>Sažetak poruke</h2>
                     <br></br>
                     <Form onSubmit={this.handleSubmit}>
@@ -141,6 +136,12 @@ class DigitalSignature extends React.Component {
                         </Button>
                     <br></br>
                     <br></br>
+                    <br></br>
+                    { this.state.varCheckSignature ? <Alert key={1} variant="success">
+                            Digitalni potpis <b>je ispravan!</b>
+                        </Alert> : <Alert key={2} variant="danger">
+                            Digitalni potpis <b>nije ispravan!</b>
+                        </Alert> }
                 </Container>
             </React.Fragment>
         );
