@@ -90,7 +90,7 @@ class MessageSummary extends React.Component {
                         <br></br>
 
                         <Form.Group controlId="ControlTextarea1">
-                            <Form.Label>Učitan je tekst iz datoteke <b>text.txt</b></Form.Label>
+                            <Form.Label>Učitan je tekst iz datoteke <b>{ this.state.varSelectedFile }</b></Form.Label>
                             <Form.Control disabled type="text" value={this.state.varString} onChange={this.handleChange} as="textarea" rows={3} />
                             <Form.Text className="text-muted">
                                 Upisani kriptirani tekst spremit će se u datoteku <b>"sazetak_poruke.txt"</b>

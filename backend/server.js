@@ -5,6 +5,7 @@ const symmetricEncryption = require('./encryption/symmetricServer/symmetricEncry
 const symmetricDecryption = require('./encryption/symmetricServer/symmetricDecryption');
 const asymmetricEncryption = require('./encryption/asymmetricServer/asymmetricEncryption');
 const asymmetricDecryption = require('./encryption/asymmetricServer/asymmetricDecryption');
+const digitalSignature = require('./encryption/asymmetricServer/digitalSignature');
 
 //npm modules
 const express = require('express');
@@ -169,6 +170,23 @@ app.get('/hashingGet', function (req, res) {
 /* *********************************************************** */
 
 //Digital signature
+app.get('/digitalSignatureGet', function (req, res) {
+  console.log('Server sends response');
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+  });
+
+  fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
+    if (err) { return console.log(err); }
+    
+    res.end(JSON.stringify(varHash));
+
+    fs.writeFile('./files/digital_signature.txt', varHash, (err) => {
+      if (err) throw err;
+      console.log('digital_signature.txt has been saved!');
+    });
+  });
+});
 
 //Digital signature check
 
