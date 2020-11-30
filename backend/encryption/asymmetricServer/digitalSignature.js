@@ -7,7 +7,6 @@ const NodeRSA = require('node-rsa');
 const key = new NodeRSA({ b: 512 });
 
 function createFileDigitalSignature(data) {
-    console.log(data);
     let sign = key.sign(data, 'base64');
     fs.writeFile('./files/digital_signature.txt', sign, (err) => {
         if (err) throw err;
@@ -16,16 +15,8 @@ function createFileDigitalSignature(data) {
     return sign;
 }
 
-function checkSignDocument(NodeRSAData) {
-    fs.readFile('./files/digital_signature.txt', 'utf8', function (err, signature) {
-        if (err) { return console.log(err); }
-        console.log(NodeRSAData);
-        console.log(signature);
-        if (key.verify(NodeRSAData, signature)) {
-            console.log('radi');
-            return true;
-        } else return false;
-    });
+function checkSignDocument(data, signature) {
+    return key.verify(Buffer.from(data, 'utf8'), Buffer.from(signature, 'base64'));
 }
 
 module.exports.createFileDigitalSignature = createFileDigitalSignature;

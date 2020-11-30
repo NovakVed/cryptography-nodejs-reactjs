@@ -6,6 +6,7 @@ const symmetricDecryption = require('./encryption/symmetricServer/symmetricDecry
 const asymmetricEncryption = require('./encryption/asymmetricServer/asymmetricEncryption');
 const asymmetricDecryption = require('./encryption/asymmetricServer/asymmetricDecryption');
 const digitalSignature = require('./encryption/asymmetricServer/digitalSignature');
+const test = require('./encryption/asymmetricServer/test');
 
 //npm modules
 const express = require('express');
@@ -179,7 +180,7 @@ app.get('/digitalSignatureGet', function (req, res) {
   fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
     if (err) { return console.log(err); }
 
-    res.end(JSON.stringify(digitalSignature.createFileDigitalSignature(data)));
+    res.end(JSON.stringify(test.testCreate(data)));
   });
 });
 
@@ -191,9 +192,13 @@ app.get('/digitalSignatureCheckGet', function (req, res) {
   });
 
   fs.readFile(setDirectoryPath, 'utf8', function (err, data) {
-    if (err) { return console.log(err); }
-    if (digitalSignature.checkSignDocument(data)) res.end(JSON.stringify(true));
-  });
+    if (err) { return console.log(err) }
+    fs.readFile('./files/digital_signature.txt', 'utf8', function (err, signature) {
+      if (err) { return console.log(err) }
+
+      res.end(JSON.stringify(test.testCheck(data, signature)));
+    })
+  })
 });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
